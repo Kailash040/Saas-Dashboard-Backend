@@ -1,46 +1,25 @@
-# SaaS Dashboard Backend API Documentation
+# API Documentation
 
-## Base URL
-```
-http://localhost:3000
-```
+## Authentication Endpoints
 
-## Authentication
-Most endpoints require authentication. Include the JWT token in the Authorization header:
-```
-Authorization: Bearer <your-jwt-token>
-```
+### Register User
+**POST** `/api/v1/auth/register`
 
-## Endpoints
+Register a new user with the following fields:
+- `fullname` (required): User's full name (2-50 characters)
+- `email` (required): Valid email address
+- `password` (required): Password (minimum 6 characters, must contain uppercase, lowercase, and number)
 
-### Health Check
-- **GET** `/health`
-- **Description**: Basic health check endpoint
-- **Response**:
+**Request Body:**
 ```json
 {
-  "status": "healthy",
-  "timestamp": "2024-01-01T12:00:00.000Z",
-  "version": "1.0.0",
-  "environment": "development"
-}
-```
-
-### Authentication
-
-#### Register User
-- **POST** `/api/v1/auth/register`
-- **Description**: Register a new user
-- **Body**:
-```json
-{
-  "name": "John Doe",
+  "fullname": "John Doe",
   "email": "john@example.com",
-  "password": "SecurePass123",
-  "company": "Example Corp"
+  "password": "Password123"
 }
 ```
-- **Response**:
+
+**Response:**
 ```json
 {
   "success": true,
@@ -48,26 +27,30 @@ Authorization: Bearer <your-jwt-token>
   "data": {
     "user": {
       "id": "user_id",
-      "name": "John Doe",
-      "email": "john@example.com",
-      "company": "Example Corp"
+      "fullname": "John Doe",
+      "email": "john@example.com"
     },
-    "token": "jwt_token_here"
+    "token": "jwt_token"
   }
 }
 ```
 
-#### Login User
-- **POST** `/api/v1/auth/login`
-- **Description**: Authenticate user and get token
-- **Body**:
+### Login User
+**POST** `/api/v1/auth/login`
+
+Login with email and password:
+- `email` (required): User's email address
+- `password` (required): User's password
+
+**Request Body:**
 ```json
 {
   "email": "john@example.com",
-  "password": "SecurePass123"
+  "password": "Password123"
 }
 ```
-- **Response**:
+
+**Response:**
 ```json
 {
   "success": true,
@@ -75,20 +58,20 @@ Authorization: Bearer <your-jwt-token>
   "data": {
     "user": {
       "id": "user_id",
-      "name": "John Doe",
-      "email": "john@example.com",
-      "company": "Example Corp"
+      "fullname": "John Doe",
+      "email": "john@example.com"
     },
-    "token": "jwt_token_here"
+    "token": "jwt_token"
   }
 }
 ```
 
-#### Logout User
-- **POST** `/api/v1/auth/logout`
-- **Description**: Logout user (requires authentication)
-- **Headers**: `Authorization: Bearer <token>`
-- **Response**:
+### Logout User
+**POST** `/api/v1/auth/logout`
+
+**Headers:** `Authorization: Bearer <token>`
+
+**Response:**
 ```json
 {
   "success": true,
@@ -96,93 +79,94 @@ Authorization: Bearer <your-jwt-token>
 }
 ```
 
-### User Management
+### Refresh Token
+**POST** `/api/v1/auth/refresh-token`
 
-#### Get User Profile
-- **GET** `/api/v1/users/profile`
-- **Description**: Get current user's profile
-- **Headers**: `Authorization: Bearer <token>`
-- **Response**:
+**Request Body:**
+```json
+{
+  "token": "current_jwt_token"
+}
+```
+
+**Response:**
 ```json
 {
   "success": true,
+  "message": "Token refreshed successfully",
   "data": {
-    "user": {
-      "id": "user_id",
-      "name": "John Doe",
-      "email": "john@example.com",
-      "company": "Example Corp",
-      "role": "user",
-      "isActive": true
-    }
+    "token": "new_jwt_token"
   }
 }
 ```
 
-#### Update User Profile
-- **PUT** `/api/v1/users/profile`
-- **Description**: Update current user's profile
-- **Headers**: `Authorization: Bearer <token>`
-- **Body**:
+### Forgot Password
+**POST** `/api/v1/auth/forgot-password`
+
+**Request Body:**
 ```json
 {
-  "name": "John Updated",
+  "email": "user@example.com"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Password reset email sent",
+  "data": {
+    "resetToken": "reset_token"
+  }
+}
+```
+
+### Reset Password
+**POST** `/api/v1/auth/reset-password`
+
+**Request Body:**
+```json
+{
+  "token": "reset_token",
+  "newPassword": "NewPassword123"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Password reset successfully"
+}
+```
+
+## User Endpoints
+
+### Get Profile
+**GET** `/api/v1/users/profile`
+
+**Headers:** `Authorization: Bearer <token>`
+
+### Update Profile
+**PUT** `/api/v1/users/profile`
+
+**Headers:** `Authorization: Bearer <token>`
+
+**Request Body:**
+```json
+{
+  "fullname": "Updated Name",
+  "email": "updated@example.com",
+  "company": "Company Name",
   "phone": "+1234567890",
   "avatar": "https://example.com/avatar.jpg"
 }
 ```
-- **Response**:
-```json
-{
-  "success": true,
-  "message": "Profile updated successfully",
-  "data": {
-    "user": {
-      "id": "user_id",
-      "name": "John Updated",
-      "email": "john@example.com",
-      "phone": "+1234567890",
-      "avatar": "https://example.com/avatar.jpg"
-    }
-  }
-}
-```
 
-### API Status
+### Delete Profile
+**DELETE** `/api/v1/users/profile`
 
-#### Get API Status
-- **GET** `/api/v1/status`
-- **Description**: Get server status and metrics
-- **Response**:
-```json
-{
-  "status": "running",
-  "uptime": 123.456,
-  "memory": {
-    "rss": "45MB",
-    "heapTotal": "20MB",
-    "heapUsed": "15MB"
-  },
-  "timestamp": "2024-01-01T12:00:00.000Z"
-}
-```
-
-#### Get API Version
-- **GET** `/api/v1/version`
-- **Description**: Get API version information
-- **Response**:
-```json
-{
-  "version": "1.0.0",
-  "apiVersion": "v1",
-  "features": [
-    "authentication",
-    "user-management",
-    "multi-tenancy",
-    "subscription-management"
-  ]
-}
-```
+**Headers:** `Authorization: Bearer <token>`
 
 ## Error Responses
 
@@ -191,7 +175,15 @@ All endpoints return consistent error responses:
 ```json
 {
   "success": false,
-  "message": "Error description",
+  "message": "Error description"
+}
+```
+
+For validation errors:
+```json
+{
+  "success": false,
+  "message": "Validation failed",
   "errors": [
     {
       "field": "email",
@@ -200,33 +192,4 @@ All endpoints return consistent error responses:
     }
   ]
 }
-```
-
-## Status Codes
-
-- `200` - Success
-- `201` - Created
-- `400` - Bad Request
-- `401` - Unauthorized
-- `403` - Forbidden
-- `404` - Not Found
-- `500` - Internal Server Error
-
-## Rate Limiting
-
-- Authentication endpoints: 5 requests per 15 minutes
-- API endpoints: 100 requests per 15 minutes
-- Rate limit headers are included in responses
-
-## Environment Variables
-
-Make sure to set these environment variables:
-
-```env
-NODE_ENV=development
-PORT=3000
-DATABASE_URL=mongodb://localhost:27017/saas-dashboard
-JWT_SECRET=your-super-secret-jwt-key
-JWT_EXPIRE=7d
-CORS_ORIGIN=http://localhost:3000
 ``` 

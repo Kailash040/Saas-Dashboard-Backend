@@ -32,7 +32,7 @@ const getProfile = async (req, res) => {
 // @access  Private
 const updateProfile = async (req, res) => {
   try {
-    const { name, email, company, phone, avatar } = req.body;
+    const { fullname, email, company, phone, avatar } = req.body;
 
     const user = await User.findById(req.user.id);
     if (!user) {
@@ -43,7 +43,7 @@ const updateProfile = async (req, res) => {
     }
 
     // Update fields
-    if (name) user.name = name;
+    if (fullname) user.fullname = fullname;
     if (email) user.email = email;
     if (company) user.company = company;
     if (phone) user.phone = phone;
@@ -57,7 +57,7 @@ const updateProfile = async (req, res) => {
       data: {
         user: {
           id: user._id,
-          name: user.name,
+          fullname: user.fullname,
           email: user.email,
           company: user.company,
           phone: user.phone,
@@ -214,7 +214,7 @@ const getUserById = async (req, res) => {
 // @access  Private/Admin
 const updateUser = async (req, res) => {
   try {
-    const { name, email, company, role, isActive } = req.body;
+    const { fullname, email, company, role, isActive } = req.body;
 
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -225,7 +225,7 @@ const updateUser = async (req, res) => {
     }
 
     // Update fields
-    if (name) user.name = name;
+    if (fullname) user.fullname = fullname;
     if (email) user.email = email;
     if (company) user.company = company;
     if (role) user.role = role;
@@ -239,7 +239,7 @@ const updateUser = async (req, res) => {
       data: {
         user: {
           id: user._id,
-          name: user.name,
+          fullname: user.fullname,
           email: user.email,
           company: user.company,
           role: user.role,

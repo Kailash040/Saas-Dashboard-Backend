@@ -35,11 +35,13 @@ A comprehensive Express.js backend application for building scalable SaaS (Softw
 ### Running the Application
 
 #### Development Mode (with auto-reload)
+
 ```bash
 npm run dev
 ```
 
 #### Production Mode
+
 ```bash
 npm start
 ```
@@ -67,9 +69,11 @@ This SaaS backend follows a modular architecture:
 ### Core API Routes
 
 #### GET `/api/v1/health`
+
 Health check endpoint for monitoring.
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -79,9 +83,11 @@ Health check endpoint for monitoring.
 ```
 
 #### GET `/api/v1/status`
+
 Server status and metrics.
 
 **Response:**
+
 ```json
 {
   "status": "running",
@@ -94,31 +100,39 @@ Server status and metrics.
 ### Authentication Endpoints
 
 #### POST `/api/v1/auth/register`
+
 User registration endpoint.
 
 #### POST `/api/v1/auth/login`
+
 User authentication endpoint.
 
 #### POST `/api/v1/auth/logout`
+
 User logout endpoint.
 
 ### User Management
 
 #### GET `/api/v1/users/profile`
+
 Get user profile information.
 
 #### PUT `/api/v1/users/profile`
+
 Update user profile.
 
 ### SaaS Features
 
 #### GET `/api/v1/tenants`
+
 Get tenant information (multi-tenant support).
 
 #### GET `/api/v1/subscriptions`
+
 Get subscription details.
 
 #### POST `/api/v1/webhooks`
+
 Handle webhook events.
 
 ## Project Structure
@@ -194,4 +208,4 @@ This SaaS backend uses modern technologies:
 
 ## License
 
-MIT 
+MIT

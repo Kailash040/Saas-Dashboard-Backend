@@ -19,10 +19,10 @@ const handleValidationErrors = (req, res, next) => {
 
 // Registration validation
 const validateRegistration = [
-  body('name')
+  body('fullname')
     .trim()
     .isLength({ min: 2, max: 50 })
-    .withMessage('Name must be between 2 and 50 characters'),
+    .withMessage('Full name must be between 2 and 50 characters'),
   
   body('email')
     .isEmail()
@@ -34,11 +34,6 @@ const validateRegistration = [
     .withMessage('Password must be at least 6 characters long')
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
     .withMessage('Password must contain at least one uppercase letter, one lowercase letter, and one number'),
-  
-  body('company')
-    .trim()
-    .isLength({ min: 2, max: 100 })
-    .withMessage('Company name must be between 2 and 100 characters'),
   
   handleValidationErrors
 ];
@@ -59,11 +54,11 @@ const validateLogin = [
 
 // Profile update validation
 const validateProfileUpdate = [
-  body('name')
+  body('fullname')
     .optional()
     .trim()
     .isLength({ min: 2, max: 50 })
-    .withMessage('Name must be between 2 and 50 characters'),
+    .withMessage('Full name must be between 2 and 50 characters'),
   
   body('email')
     .optional()
