@@ -29,9 +29,11 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Compression middleware
+
 app.use(compression());
 
 // Logging middleware
+
 if (config.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 } else {
@@ -39,9 +41,11 @@ if (config.NODE_ENV === 'development') {
 }
 
 // Serve static files
+
 app.use(express.static('public'));
 
 // API Routes
+
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1', apiRoutes);
@@ -57,6 +61,7 @@ app.get('/health', (req, res) => {
 });
 
 // Root endpoint
+
 app.get('/', (req, res) => {
   res.json({
     message: 'SaaS Dashboard Backend API',
