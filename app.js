@@ -88,11 +88,11 @@ const PORT = config.PORT;
 app.listen(PORT, () => {
   console.log(`🚀 SaaS Dashboard Backend Server is running on http://localhost:${PORT}`);
   console.log(`📝 Environment: ${config.NODE_ENV}`);
-  console.log(`📝 API Documentation:`);
-  console.log(`   GET /health - Health check`);
-  console.log(`   GET /api/v1/health - API health check`);
-  console.log(`   GET /api/v1/status - Server status`);
-  console.log(`   POST /api/v1/auth/register - User registration`);
-  console.log(`   POST /api/v1/auth/login - User login`);
-  console.log(`   GET /api/v1/users/profile - Get user profile`);
+  // console.log(`📝 API Documentation:`);
+  // console.log(`   GET /health - Health check`);
+  // console.log(`   GET /api/v1/health - API health check`);
+  // console.log(`   GET /api/v1/status - Server status`);
+  // console.log(`   POST /api/v1/auth/register - User registration`);
+  // console.log(`   POST /api/v1/auth/login - User login`);
+  // console.log(`   GET /api/v1/users/profile - Get user profile`);
 }); 
